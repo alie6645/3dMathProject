@@ -18,7 +18,8 @@ public class Line3D {
     public void draw(Graphics2D g2, ProjectionCamera proj){
         Point2D first = proj.convert(p1);
         Point2D second = proj.convert(p2);
-        g2.drawLine((int) first.getX(), (int) first.getY(), (int) second.getX(), (int) second.getY());
-
+        if (first!=null&&second!=null) {
+            g2.drawLine((int) first.getX(), (int) first.getY(), (int) second.getX(), (int) second.getY());
+        }
     }
 }

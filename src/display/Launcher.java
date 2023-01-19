@@ -11,7 +11,11 @@ public class Launcher {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(new Dimension(400,400));
         Panel panel = new Panel();
-        panel.add(new Box3D(new Vector3(100,100,10),100,100,100));
+        KeyController controller = new KeyController(panel);
+        frame.addKeyListener(controller);
+        panel.add(new Box3D(new Vector3(10,10,4),10,10,10));
+        panel.add(new Box3D(new Vector3(20,10,4),20,20,20));
+        //panel.projection.rotateScreen(0,-0.3,0);
         frame.add(panel);
 
         frame.setVisible(true);

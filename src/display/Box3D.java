@@ -13,9 +13,22 @@ public class Box3D implements Shape3D{
         Vector3 up = new Vector3(0,height,0);
         Vector3 in = new Vector3(0,0,depth);
         Vector3 side = new Vector3(width,0,0);
-        lines.add(new Line3D(point, VectorMath.add(point,up)));
-        lines.add(new Line3D(point, VectorMath.add(point,in)));
-        lines.add(new Line3D(point, VectorMath.add(point,side)));
+        Vector3 P1 = VectorMath.add(point,side);
+        Vector3 P2 = VectorMath.add(point,up);
+        Vector3 P3 = VectorMath.add(point,in);
+        Vector3 P4 = VectorMath.add(P1,up);
+
+        lines.add(new Line3D(point, P2));
+        lines.add(new Line3D(point, P3));
+        lines.add(new Line3D(point, P1));
+        lines.add(new Line3D(P1, P4));
+        lines.add(new Line3D(P1, VectorMath.add(P1,in)));
+        lines.add(new Line3D(P2, VectorMath.add(P2,in)));
+        lines.add(new Line3D(P4,VectorMath.add(P4,in)));
+        lines.add(new Line3D(P4,VectorMath.subtract(P4,side)));
+        lines.add(new Line3D(P3,VectorMath.add(P3,side)));
+        lines.add(new Line3D(P3,VectorMath.add(P3,up)));
+
     }
 
     @Override
