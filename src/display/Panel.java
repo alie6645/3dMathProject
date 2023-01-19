@@ -20,8 +20,11 @@ public class Panel extends JComponent {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
+        g2.setColor(Color.BLACK);
+        g2.fillRect(0,0,400,400);
         for (Shape3D shape:shapes){
             List<Line3D> lines = shape.getLines();
+            g2.setColor(shape.getColor());
             for (Line3D line:lines){
                 line.draw(g2, projection);
             }

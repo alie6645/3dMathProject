@@ -32,26 +32,26 @@ public class KeyController extends KeyAdapter {
                 cam.rotateScreen(0, 0.01, 0);
             }
             if (e.getKeyChar() == 't') {
-                cam.rotateScreen(0, 0, 0.1);
+                cam.rotateScreen(0, 0, 0.01);
             }
         } else {
             if (e.getKeyChar() == 'w') {
-                cam.move(0, 0, 0.1);
+                cam.move(0, 0, 0.2);
             }
             if (e.getKeyChar() == 'a') {
-                cam.move(-0.1, 0, 0);
+                cam.move(-0.2, 0, 0);
             }
             if (e.getKeyChar() == 's') {
-                cam.move(0, 0, -0.1);
+                cam.move(0, 0, -0.2);
             }
             if (e.getKeyChar() == 'd') {
-                cam.move(0.1, 0, 0);
+                cam.move(0.2, 0, 0);
             }
             if (e.getKeyChar() == 'q') {
-                cam.move(0, 0.1, 0);
+                cam.move(0, 0.2, 0);
             }
             if (e.getKeyChar() == 'e'){
-                cam.move(0,-0.1,0);
+                cam.move(0,-0.2,0);
             }
         }
         panel.repaint();

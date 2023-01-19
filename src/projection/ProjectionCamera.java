@@ -3,7 +3,7 @@ package projection;
 import java.awt.geom.Point2D;
 
 public class ProjectionCamera {
-    Vector3 camera = new Vector3(0,0,0);
+    Vector3 camera = new Vector3(10,10,-10);
     public Vector3 rotation = new Vector3(0, 0, 0);
     Plane screen = new Plane(0,0,1,200);
     Vector3 normal = new Vector3(0,0,1);
@@ -22,6 +22,9 @@ public class ProjectionCamera {
         double d = plane.d;
         double t = d - a * start.x - b * start.y - c * start.z;
         t = t / (a * x - a * start.x + b * y - b * start.y + c * z - c * start.z);
+        if (t<0){
+            return null;
+        }
         return new Vector3(t * (x - start.x), t * (y - start.y), t * (z - start.z));
     }
 
@@ -91,13 +94,12 @@ public class ProjectionCamera {
         rotation.y += y;
         rotation.z += z;
         screen.update(normal, normal);
-
     }
 
     public Point2D convert(Vector3 point){
         Vector3 line = VectorMath.subtract(point,camera);
         Vector3 intersection = intersect(line,screen);
-        if (camera.z>point.z){
+        if (intersection==null){
             return null;
         }
         intersection = rotateReverse(intersection);
