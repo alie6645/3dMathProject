@@ -16,14 +16,15 @@ public class Launcher {
         Panel panel = new Panel();
         KeyController controller = new KeyController(panel);
         frame.addKeyListener(controller);
-        Box3D box1 = getBox(10,10,4,10,10,10);
-        box1.setColor(Color.GREEN);
-        panel.add(box1);
-        Box3D box2 = getBox(20,10,4,20,20,20);
-        box2.setColor(Color.GREEN);
-        panel.add(box2);
+        MouseController mouse = new MouseController(panel);
+        frame.addMouseMotionListener(mouse);
         Cube cube = new Cube(new Vector3(0,10,4),10);
+        Cube cube1 = new Cube(new Vector3(-10,10,-10),10);
+        Cube cube2 = new Cube(new Vector3(0,10,-14),10);
+
         panel.add(cube);
+        panel.add(cube1);
+        panel.add(cube2);
         frame.add(panel);
 
         frame.setVisible(true);

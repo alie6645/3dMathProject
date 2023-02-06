@@ -15,6 +15,9 @@ public class KeyController extends KeyAdapter {
     }
     @Override
     public void keyPressed(KeyEvent e) {
+        if (e.getKeyChar() == 'b'){
+            System.exit(0);
+        }
         if (e.getKeyChar() == 'p'){
             rotate = !rotate;
         }
@@ -31,8 +34,11 @@ public class KeyController extends KeyAdapter {
             if (e.getKeyChar() == 'd') {
                 cam.rotateScreen(0, 0.01, 0);
             }
-            if (e.getKeyChar() == 't') {
+            if (e.getKeyChar() == 'q') {
                 cam.rotateScreen(0, 0, 0.01);
+            }
+            if (e.getKeyChar() == 'e'){
+                cam.rotateScreen(0,0,-0.01);
             }
         } else {
             if (e.getKeyChar() == 'w') {

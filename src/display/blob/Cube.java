@@ -16,10 +16,12 @@ public class Cube implements Blob3D {
         Vector3 down = new Vector3(0,length,0);
         Vector3 side = new Vector3(length,0,0);
         Vector3 in = new Vector3(0,0,length);
+        Vector3 corner = VectorMath.add(pos,down);
 
         polygons.add(addSquare(pos,down,side));
         polygons.add(addSquare(pos,in,down));
         polygons.add(addSquare(pos,in,side));
+        polygons.add(addSquare(corner,in,side));
     }
     @Override
     public Color getColor() {

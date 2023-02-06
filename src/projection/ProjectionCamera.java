@@ -29,23 +29,16 @@ public class ProjectionCamera {
     }
 
     public void move(double x, double y, double z){
-        Vector3 side = new Vector3(1,0,0);
-        Vector3 up = new Vector3(0,1,0);
-        Vector3 in = new Vector3(0,0,1);
-
-        side = rotate(side);
-        up = rotate(up);
-        in = rotate(in);
-
-        camera = VectorMath.add(camera,VectorMath.multiply(side,x));
-        camera = VectorMath.add(camera,VectorMath.multiply(up,y));
-        camera = VectorMath.add(camera,VectorMath.multiply(in,z));
+        camera = new Vector3(camera.x + x, camera.y + y, camera.z + z);
     }
+
     public Vector3 rotateZ(Vector3 point, double angle){
         if (angle != 0) {
             double x = point.x;
             double y = point.y;
             return new Vector3(x*Math.cos(angle)-y*Math.sin(angle), x*Math.sin(angle)+y*Math.cos(angle), point.z);
+            //point.x = x*Math.cos(angle)-y*Math.sin(angle);
+            //point.y = x*Math.sin(angle)+y*Math.cos(angle);
         } else {
             return point;
         }
@@ -56,6 +49,8 @@ public class ProjectionCamera {
             double z = point.z;
             double y = point.y;
             return new Vector3(point.x, y*Math.cos(angle)-z*Math.sin(angle), y*Math.sin(angle)+z*Math.cos(angle));
+            //point.y = y*Math.cos(angle)-z*Math.sin(angle);
+            //point.z = y*Math.sin(angle)+z*Math.cos(angle);
         } else {
             return point;
         }
@@ -66,6 +61,8 @@ public class ProjectionCamera {
             double x = point.x;
             double z = point.z;
             return new Vector3(x*Math.cos(angle)+z*Math.sin(angle), point.y, z*Math.cos(angle)-x*Math.sin(angle));
+            //point.x = x*Math.cos(angle)+z*Math.sin(angle);
+            //point.z = z*Math.cos(angle)-x*Math.sin(angle);
         } else {
             return point;
         }
@@ -79,8 +76,8 @@ public class ProjectionCamera {
         return result;
     }
 
-    public Vector3 rotate(Vector3 point){
-        return rotate(point, rotation.x, rotation.y, rotation.z);
+    public void rotate(Vector3 point){
+        rotate(point, rotation.x, rotation.y, rotation.z);
     }
 
     public Vector3 rotateReverse(Vector3 point){
