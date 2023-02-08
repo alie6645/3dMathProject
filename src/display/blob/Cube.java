@@ -11,8 +11,14 @@ import java.util.List;
 public class Cube implements Blob3D {
     Color color = Color.GREEN;
     List<Polygon3D> polygons = new ArrayList<>();
+    Vector3 pos;
+    double length;
+
 
     public Cube(Vector3 pos, double length){
+        this.pos = pos;
+        this.length = length;
+
         Vector3 down = new Vector3(0,length,0);
         Vector3 side = new Vector3(length,0,0);
         Vector3 in = new Vector3(0,0,length);
@@ -40,6 +46,11 @@ public class Cube implements Blob3D {
                 return (int) (o2.getDepth(cam) - o1.getDepth(cam));
             }
         });
+    }
+
+    @Override
+    public Vector3 getCenter() {
+        return VectorMath.add(pos,new Vector3(length/2,length/2,length/2));
     }
 
     public Polygon3D addSquare(Vector3 pos, Vector3 side, Vector3 up){

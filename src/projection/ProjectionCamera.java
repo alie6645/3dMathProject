@@ -29,7 +29,17 @@ public class ProjectionCamera {
     }
 
     public void move(double x, double y, double z){
-        camera = new Vector3(camera.x + x, camera.y + y, camera.z + z);
+        Vector3 side = new Vector3(1,0,0);
+        Vector3 up = new Vector3(0,1,0);
+        Vector3 in = new Vector3(0,0,1);
+
+        side = rotate(side);
+        up = rotate(up);
+        in = rotate(in);
+
+        camera = VectorMath.add(camera,VectorMath.multiply(side,x));
+        camera = VectorMath.add(camera,VectorMath.multiply(up,y));
+        camera = VectorMath.add(camera,VectorMath.multiply(in,z));
     }
 
     public Vector3 rotateZ(Vector3 point, double angle){
@@ -76,8 +86,8 @@ public class ProjectionCamera {
         return result;
     }
 
-    public void rotate(Vector3 point){
-        rotate(point, rotation.x, rotation.y, rotation.z);
+    public Vector3 rotate(Vector3 point){
+        return rotate(point, rotation.x, rotation.y, rotation.z);
     }
 
     public Vector3 rotateReverse(Vector3 point){

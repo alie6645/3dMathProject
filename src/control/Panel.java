@@ -6,11 +6,13 @@ import display.shape.Line3D;
 import display.blob.Polygon3D;
 import display.shape.Shape3D;
 import projection.ProjectionCamera;
+import projection.Vector3;
 import projection.VectorMath;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Panel extends JComponent {
@@ -27,6 +29,17 @@ public class Panel extends JComponent {
         polygons.add(blob);
     }
 
+    public void sortBlobs(Vector3 cam){
+        polygons.sort(new Comparator<Blob3D>() {
+            @Override
+            public int compare(Blob3D o1, Blob3D o2) {
+                Vector3 vec1 = VectorMath.subtract(o1.getCenter(),cam);
+                Vector3 vec2 = VectorMath.subtract(o2.getCenter(),cam);
+                return (int) (vec2.magnitude() - vec1.magnitude());
+            }
+        });
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -40,6 +53,7 @@ public class Panel extends JComponent {
                 line.draw(g2, projection);
             }
         }
+        sortBlobs(projection.camera);
         for (Blob3D blob:polygons){
             blob.depthSort(projection.camera);
             Color main = blob.getColor();
