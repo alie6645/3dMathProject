@@ -2,6 +2,8 @@ package control;
 
 import display.ColorModifier;
 import display.blob.Blob3D;
+import display.light.LightModel;
+import display.light.PointSource;
 import display.shape.Line3D;
 import display.blob.Polygon3D;
 import display.shape.Shape3D;
@@ -20,6 +22,7 @@ public class Panel extends JComponent {
     ArrayList<Shape3D> shapes = new ArrayList<Shape3D>();
     ArrayList<Blob3D> polygons = new ArrayList<>();
     ProjectionCamera projection = new ProjectionCamera();
+    LightModel lighting = new LightModel();
 
     public void add(Shape3D shape){
         shapes.add(shape);
@@ -27,6 +30,10 @@ public class Panel extends JComponent {
 
     public void add(Blob3D blob){
         polygons.add(blob);
+    }
+
+    public void addPointLight(Vector3 location, double distance){
+        lighting.addLight(new PointSource(location,distance));
     }
 
     public void sortBlobs(Vector3 cam){
@@ -60,8 +67,9 @@ public class Panel extends JComponent {
             g2.setColor(blob.getColor());
             List<Polygon3D> surfaces = blob.getPolygons();
             for (Polygon3D poly:surfaces){
-                double modifier = Math.abs(VectorMath.dot(VectorMath.norm(poly.getNormal()),VectorMath.norm(projection.normal)));
-                g2.setColor(ColorModifier.multiply(main,0.5*modifier + 0.5));
+                //double modifier = Math.abs(VectorMath.dot(VectorMath.norm(poly.getNormal()),VectorMath.norm(projection.normal)));
+                double modifier = lighting.getLight(poly.getCenter(),poly.getNormal());
+                g2.setColor(ColorModifier.multiply(main,modifier));
                 poly.draw(g2, projection);
             }
         }

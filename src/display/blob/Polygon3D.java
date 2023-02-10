@@ -42,4 +42,9 @@ public class Polygon3D {
         Vector3 vertex = VectorMath.multiply(VectorMath.add(points.get(0),points.get(2)),0.5);
         return Math.abs(VectorMath.subtract(vertex,point).magnitude());
     }
+
+    public Vector3 getCenter(){
+        Vector3 vertex = VectorMath.multiply(VectorMath.add(points.get(0),points.get(2)),0.5);
+        return vertex;
+    }
 }

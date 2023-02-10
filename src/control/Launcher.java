@@ -25,6 +25,10 @@ public class Launcher {
         panel.add(cube);
         panel.add(cube1);
         panel.add(cube2);
+
+        panel.addPointLight(new Vector3(0,0,0),100);
+        panel.addPointLight(new Vector3(10,10,10), 100);
+
         frame.add(panel);
 
         frame.setVisible(true);
