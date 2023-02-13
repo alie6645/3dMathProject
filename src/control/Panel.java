@@ -2,6 +2,8 @@ package control;
 
 import display.ColorModifier;
 import display.blob.Blob3D;
+import display.light.AmbientSource;
+import display.light.DirectionalSource;
 import display.light.LightModel;
 import display.light.PointSource;
 import display.shape.Line3D;
@@ -34,6 +36,14 @@ public class Panel extends JComponent {
 
     public void addPointLight(Vector3 location, double distance){
         lighting.addLight(new PointSource(location,distance));
+    }
+
+    public void addAmbient(double intensity){
+        lighting.addLight(new AmbientSource(intensity));
+    }
+
+    public void addDirectionalLight(Vector3 direction){
+        lighting.addLight(new DirectionalSource(direction));
     }
 
     public void sortBlobs(Vector3 cam){
