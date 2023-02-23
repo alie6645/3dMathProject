@@ -5,8 +5,10 @@ import java.awt.geom.Point2D;
 public class ProjectionCamera {
     public Vector3 camera = new Vector3(10,10,-10);
     public Vector3 rotation = new Vector3(0, 0, 0);
-    Plane screen = new Plane(0,0,1,200);
+    Plane screen = new Plane(0,0,1,400);
     public Vector3 normal = new Vector3(0,0,1);
+    public Vector3 up = new Vector3(0,1,0);
+    public Vector3 side = new Vector3(1,0,0);
 
     public Vector3 intersect(Vector3 line, Plane plane){
         return intersect(camera, line, plane);
@@ -28,18 +30,28 @@ public class ProjectionCamera {
         return new Vector3(t * (x - start.x), t * (y - start.y), t * (z - start.z));
     }
 
+    public Vector3 genericIntersect(Vector3 start, Vector3 line, Plane plane){
+        double a = plane.a;
+        double b = plane.b;
+        double c = plane.c;
+        double x = line.x;
+        double y = line.y;
+        double z = line.z;
+        double d = plane.d;
+        double t = d - a * start.x - b * start.y - c * start.z;
+        t = t / (a * x - a * start.x + b * y - b * start.y + c * z - c * start.z);
+        return new Vector3(t * (x - start.x), t * (y - start.y), t * (z - start.z));
+    }
+
+    public Vector3 genericIntersect(Vector3 line, Plane plane){
+        return genericIntersect(camera, line, plane);
+    }
+
+
     public void move(double x, double y, double z){
-        Vector3 side = new Vector3(1,0,0);
-        Vector3 up = new Vector3(0,1,0);
-        Vector3 in = new Vector3(0,0,1);
-
-        side = rotate(side);
-        up = rotate(up);
-        in = rotate(in);
-
         camera = VectorMath.add(camera,VectorMath.multiply(side,x));
         camera = VectorMath.add(camera,VectorMath.multiply(up,y));
-        camera = VectorMath.add(camera,VectorMath.multiply(in,z));
+        camera = VectorMath.add(camera,VectorMath.multiply(normal,z));
     }
 
     public Vector3 rotateZ(Vector3 point, double angle){
@@ -47,8 +59,6 @@ public class ProjectionCamera {
             double x = point.x;
             double y = point.y;
             return new Vector3(x*Math.cos(angle)-y*Math.sin(angle), x*Math.sin(angle)+y*Math.cos(angle), point.z);
-            //point.x = x*Math.cos(angle)-y*Math.sin(angle);
-            //point.y = x*Math.sin(angle)+y*Math.cos(angle);
         } else {
             return point;
         }
@@ -59,8 +69,6 @@ public class ProjectionCamera {
             double z = point.z;
             double y = point.y;
             return new Vector3(point.x, y*Math.cos(angle)-z*Math.sin(angle), y*Math.sin(angle)+z*Math.cos(angle));
-            //point.y = y*Math.cos(angle)-z*Math.sin(angle);
-            //point.z = y*Math.sin(angle)+z*Math.cos(angle);
         } else {
             return point;
         }
@@ -71,8 +79,6 @@ public class ProjectionCamera {
             double x = point.x;
             double z = point.z;
             return new Vector3(x*Math.cos(angle)+z*Math.sin(angle), point.y, z*Math.cos(angle)-x*Math.sin(angle));
-            //point.x = x*Math.cos(angle)+z*Math.sin(angle);
-            //point.z = z*Math.cos(angle)-x*Math.sin(angle);
         } else {
             return point;
         }
@@ -86,36 +92,48 @@ public class ProjectionCamera {
         return result;
     }
 
-    public Vector3 rotate(Vector3 point){
-        return rotate(point, rotation.x, rotation.y, rotation.z);
-    }
-
     public Vector3 rotateReverse(Vector3 point){
-        Vector3 result = new Vector3(point);
-        result = rotateX(point, -rotation.x);
-        result = rotateY(result, -rotation.y);
-        result = rotateZ(result, -rotation.z);
-        return result;
+        Vector3 p2 = VectorMath.add(new Vector3(0,1,0),camera);
+        Vector3 p1 = VectorMath.add(new Vector3(0,0,0),camera);
+        p2 = genericIntersect(VectorMath.add(p2,normal),screen);
+        p1 = genericIntersect(VectorMath.add(p1,normal),screen);
+        if (p1!=null && p2!=null) {
+            Vector3 yAxis = VectorMath.norm(VectorMath.subtract(p2,p1));
+            Vector3 xAxis = VectorMath.norm(VectorMath.cross(yAxis, normal));
+            return new Vector3(VectorMath.dot(point, xAxis), VectorMath.dot(point, yAxis), 0);
+        } else {
+            return null;
+        }
     }
 
     public void rotateScreen(double x, double y, double z){
-        normal = rotate(normal, x, y, z);
-        rotation.x += x;
-        rotation.y += y;
-        rotation.z += z;
-        screen.update(normal, normal);
+
+        //locks camera when trying to look too far up or down
+        double verticalAngle = rotate(normal, x, y, z).y;
+        if (Math.abs(verticalAngle) < 0.8) {
+            normal = rotate(normal, x, y, z);
+            up = rotate(up, x, y, z);
+            side = rotate(side, x, y, z);
+            rotation.x += x;
+            rotation.y += y;
+            rotation.z += z;
+            screen.update(normal, normal);
+        }
     }
 
     public Point2D convert(Vector3 point){
         Vector3 line = VectorMath.subtract(point,camera);
         Vector3 intersection = intersect(line,screen);
         if (line.magnitude()>50){
-            return null;
+            //return null;
         }
         if (intersection==null){
             return null;
         }
         intersection = rotateReverse(intersection);
-        return new Point2D.Double(intersection.x + 200, intersection.y + 200);
+
+
+        //adding constants centers projection on screen
+        return new Point2D.Double(intersection.x+400, intersection.y+400);
     }
 }

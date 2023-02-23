@@ -17,14 +17,7 @@ public class Plane {
         this.a = norm.x;
         this.b = norm.y;
         this.c = norm.z;
-        this.d = VectorMath.dot(norm,point)*200;
-    }
-
-    public void move(Vector3 norm, Vector3 point){
-        this.a = norm.x;
-        this.b = norm.y;
-        this.c = norm.z;
-        this.d = VectorMath.dot(norm,point);
+        this.d = VectorMath.dot(norm,point)*400;
     }
 
     public String toString(){

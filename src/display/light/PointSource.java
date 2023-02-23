@@ -6,9 +6,16 @@ import projection.VectorMath;
 public class PointSource implements Light{
     Vector3 location;
     double distance;
-    public PointSource(Vector3 location, double distance ){
+    double brightness = 1;
+    public PointSource(Vector3 location, double distance){
         this.location = location;
         this.distance = distance;
+    }
+
+    public PointSource(Vector3 location, double distance, double brightness){
+        this.location = location;
+        this.distance = distance;
+        this.brightness = brightness;
     }
 
     @Override
@@ -16,6 +23,6 @@ public class PointSource implements Light{
         Vector3 direction = VectorMath.subtract(pos, location);
         double intensity = (distance - direction.magnitude()) / distance;
         double modifier = Math.abs(VectorMath.dot(VectorMath.norm(norm),VectorMath.norm(direction))) * intensity;
-        return modifier;
+        return modifier * brightness;
     }
 }

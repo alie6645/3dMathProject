@@ -31,7 +31,7 @@ public class Polygon3D {
         }
         g2.fillPolygon(x,y,index);
         g2.setColor(Color.BLACK);
-        g2.drawPolygon(x,y,index);
+        //g2.drawPolygon(x,y,index);
     }
 
     public Vector3 getNormal(){
@@ -39,7 +39,12 @@ public class Polygon3D {
     }
 
     public double getDepth(Vector3 point) {
-        Vector3 vertex = VectorMath.multiply(VectorMath.add(points.get(0),points.get(2)),0.5);
+        Vector3 vertex = points.get(0);
+        for (Vector3 dot:points){
+            if(VectorMath.subtract(dot,point).magnitude()>VectorMath.subtract(vertex,point).magnitude()){
+                vertex = dot;
+            }
+        }
         return Math.abs(VectorMath.subtract(vertex,point).magnitude());
     }
 

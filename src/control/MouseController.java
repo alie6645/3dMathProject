@@ -27,14 +27,16 @@ public class MouseController extends MouseAdapter {
         }
         int x = e.getX();
         int y = e.getY();
-        if (x>300||y>300||x<100||y<100){
-            bot.mouseMove(200,200);
-            x = 200;
-            y = 200;
-            lastX = 200;
-            lastY = 200;
+        if (x>600||y>600||x<200||y<200){
+            bot.mouseMove(400,400);
+            x = 400;
+            y = 400;
+            lastX = 400;
+            lastY = 400;
         }
-        cam.rotateScreen(-rotate * (y-lastY),rotate*(x-lastX),0);
+        double ypart = cam.normal.z;
+        double zpart = cam.normal.x;
+        cam.rotateScreen(-rotate * (y-lastY) * ypart,rotate*(x-lastX),zpart*rotate*(y-lastY));
         panel.repaint();
         lastX = x;
         lastY = y;

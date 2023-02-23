@@ -34,8 +34,8 @@ public class Panel extends JComponent {
         polygons.add(blob);
     }
 
-    public void addPointLight(Vector3 location, double distance){
-        lighting.addLight(new PointSource(location,distance));
+    public void addPointLight(Vector3 location, double distance, double brightness){
+        lighting.addLight(new PointSource(location,distance, brightness));
     }
 
     public void addAmbient(double intensity){
