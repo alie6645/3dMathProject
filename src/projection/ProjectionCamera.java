@@ -7,8 +7,9 @@ public class ProjectionCamera {
     public Vector3 rotation = new Vector3(0, 0, 0);
     Plane screen = new Plane(0,0,1,400);
     public Vector3 normal = new Vector3(0,0,1);
-    public Vector3 up = new Vector3(0,1,0);
-    public Vector3 side = new Vector3(1,0,0);
+    private Vector3 up = new Vector3(0,1,0);
+    private Vector3 side = new Vector3(1,0,0);
+    private Vector3 front = new Vector3(0,0,1);
 
     public Vector3 intersect(Vector3 line, Plane plane){
         return intersect(camera, line, plane);
@@ -33,7 +34,7 @@ public class ProjectionCamera {
     public void move(double x, double y, double z){
         camera = VectorMath.add(camera,VectorMath.multiply(side,x));
         camera = VectorMath.add(camera,VectorMath.multiply(up,y));
-        camera = VectorMath.add(camera,VectorMath.multiply(normal,z));
+        camera = VectorMath.add(camera,VectorMath.multiply(front,z));
     }
 
     public Vector3 rotateZ(Vector3 point, double angle){
@@ -94,8 +95,8 @@ public class ProjectionCamera {
         double verticalAngle = rotate(normal, x, y, z).y;
         if (Math.abs(verticalAngle) < 0.8) {
             normal = rotate(normal, x, y, z);
-            up = rotate(up, x, y, z);
-            side = rotate(side, x, y, z);
+            side = rotate(side, 0, y, 0);
+            front = rotate(front,0,y,0);
             rotation.x += x;
             rotation.y += y;
             rotation.z += z;
