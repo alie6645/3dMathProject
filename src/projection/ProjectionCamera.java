@@ -4,7 +4,6 @@ import java.awt.geom.Point2D;
 
 public class ProjectionCamera {
     public Vector3 camera = new Vector3(10,10,-10);
-    public Vector3 rotation = new Vector3(0, 0, 0);
     Plane screen = new Plane(0,0,1,400);
     public Vector3 normal = new Vector3(0,0,1);
     private Vector3 up = new Vector3(0,1,0);
@@ -97,9 +96,6 @@ public class ProjectionCamera {
             normal = rotate(normal, x, y, z);
             side = rotate(side, 0, y, 0);
             front = rotate(front,0,y,0);
-            rotation.x += x;
-            rotation.y += y;
-            rotation.z += z;
             screen.update(normal, normal);
         }
     }
