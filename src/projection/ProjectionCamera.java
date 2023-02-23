@@ -30,24 +30,6 @@ public class ProjectionCamera {
         return new Vector3(t * (x - start.x), t * (y - start.y), t * (z - start.z));
     }
 
-    public Vector3 genericIntersect(Vector3 start, Vector3 line, Plane plane){
-        double a = plane.a;
-        double b = plane.b;
-        double c = plane.c;
-        double x = line.x;
-        double y = line.y;
-        double z = line.z;
-        double d = plane.d;
-        double t = d - a * start.x - b * start.y - c * start.z;
-        t = t / (a * x - a * start.x + b * y - b * start.y + c * z - c * start.z);
-        return new Vector3(t * (x - start.x), t * (y - start.y), t * (z - start.z));
-    }
-
-    public Vector3 genericIntersect(Vector3 line, Plane plane){
-        return genericIntersect(camera, line, plane);
-    }
-
-
     public void move(double x, double y, double z){
         camera = VectorMath.add(camera,VectorMath.multiply(side,x));
         camera = VectorMath.add(camera,VectorMath.multiply(up,y));
@@ -95,8 +77,8 @@ public class ProjectionCamera {
     public Vector3 rotateReverse(Vector3 point){
         Vector3 p2 = VectorMath.add(new Vector3(0,1,0),camera);
         Vector3 p1 = VectorMath.add(new Vector3(0,0,0),camera);
-        p2 = genericIntersect(VectorMath.add(p2,normal),screen);
-        p1 = genericIntersect(VectorMath.add(p1,normal),screen);
+        p2 = intersect(VectorMath.add(p2,normal),screen);
+        p1 = intersect(VectorMath.add(p1,normal),screen);
         if (p1!=null && p2!=null) {
             Vector3 yAxis = VectorMath.norm(VectorMath.subtract(p2,p1));
             Vector3 xAxis = VectorMath.norm(VectorMath.cross(yAxis, normal));
