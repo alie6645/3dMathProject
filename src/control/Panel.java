@@ -20,7 +20,18 @@ public class Panel extends JComponent {
     public void add(Shape3D shape){
         shapes.add(shape);
     }
-
+    
+    public void sortBlobs(Vector3 cam){
+        polygons.sort(new Comparator<Blob3D>() {
+            @Override
+            public int compare(Blob3D o1, Blob3D o2) {
+                Vector3 vec1 = VectorMath.subtract(o1.getCenter(),cam);
+                Vector3 vec2 = VectorMath.subtract(o2.getCenter(),cam);
+                return (int) (vec2.magnitude() - vec1.magnitude());
+            }
+        });
+    }
+    
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -34,7 +45,9 @@ public class Panel extends JComponent {
                 line.draw(g2, projection);
             }
         }
+        sortBlobs(projection.camera);
         for (Blob3D blob:polygons){
+            blob.depthSort(projection.camera);
             g2.setColor(blob.getColor());
             List<Polygon3D> surfaces = blob.getPolygons();
             for (Polygon3D poly:surfaces){
