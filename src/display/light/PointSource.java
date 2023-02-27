@@ -22,7 +22,11 @@ public class PointSource implements Light{
     public double getLight(Vector3 pos, Vector3 norm) {
         Vector3 direction = VectorMath.subtract(pos, location);
         double intensity = (distance - direction.magnitude()) / distance;
-        double modifier = Math.abs(VectorMath.dot(VectorMath.norm(norm),VectorMath.norm(direction))) * intensity;
-        return modifier * brightness;
+        if (intensity > 0) {
+            double modifier = Math.abs(VectorMath.dot(VectorMath.norm(norm), VectorMath.norm(direction))) * intensity;
+            return modifier * brightness;
+        } else {
+            return 0;
+        }
     }
 }

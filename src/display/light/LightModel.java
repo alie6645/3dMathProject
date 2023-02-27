@@ -12,7 +12,11 @@ public class LightModel {
         lights.add(light);
     }
 
-    public double getLight(Vector3 pos, Vector3 norm){
+    public void setLight(int index, Light light){
+        lights.set(index, light);
+    }
+
+    public double getLighting(Vector3 pos, Vector3 norm){
         double total = 0;
         for (Light light:lights){
             total += light.getLight(pos, norm);

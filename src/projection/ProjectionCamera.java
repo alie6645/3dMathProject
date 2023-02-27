@@ -90,14 +90,17 @@ public class ProjectionCamera {
 
     public void rotateScreen(double x, double y, double z){
 
-        //locks camera when trying to look too far up or down
         double verticalAngle = rotate(normal, x, y, z).y;
+        normal = rotate(normal,0,y,z);
+        side = rotate(side, 0, y, 0);
+        front = rotate(front,0,y,0);
+
+        //locks camera when trying to look too far up or down
         if (Math.abs(verticalAngle) < 0.8) {
-            normal = rotate(normal, x, y, z);
-            side = rotate(side, 0, y, 0);
-            front = rotate(front,0,y,0);
-            screen.update(normal, normal);
+            normal = rotate(normal, x, 0, z);
         }
+        screen.update(normal, normal);
+
     }
 
     public Point2D convert(Vector3 point){

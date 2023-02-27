@@ -2,10 +2,7 @@ package control;
 
 import display.ColorModifier;
 import display.blob.Blob3D;
-import display.light.AmbientSource;
-import display.light.DirectionalSource;
-import display.light.LightModel;
-import display.light.PointSource;
+import display.light.*;
 import display.shape.Line3D;
 import display.blob.Polygon3D;
 import display.shape.Shape3D;
@@ -32,6 +29,10 @@ public class Panel extends JComponent {
 
     public void add(Blob3D blob){
         polygons.add(blob);
+    }
+
+    public void setLight(int index, Light light){
+        lighting.setLight(index, light);
     }
 
     public void addPointLight(Vector3 location, double distance, double brightness){
@@ -78,7 +79,7 @@ public class Panel extends JComponent {
             List<Polygon3D> surfaces = blob.getPolygons();
             for (Polygon3D poly:surfaces){
                 //double modifier = Math.abs(VectorMath.dot(VectorMath.norm(poly.getNormal()),VectorMath.norm(projection.normal)));
-                double modifier = lighting.getLight(poly.getCenter(),poly.getNormal());
+                double modifier = lighting.getLighting(poly.getCenter(),poly.getNormal());
                 g2.setColor(ColorModifier.multiply(main,modifier));
                 poly.draw(g2, projection);
             }

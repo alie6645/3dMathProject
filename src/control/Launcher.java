@@ -57,17 +57,12 @@ public class Launcher {
         panel.add(pyramid);
 
         panel.addPointLight(new Vector3(0,0,0),50,0.5);
-        //panel.addPointLight(new Vector3(50,10,50), 50,0.5);
+        panel.addPointLight(new Vector3(50,10,50), 50,0.5);
         //panel.addPointLight(new Vector3(-20,-20,-10),100,0.5);
-        panel.addAmbient(0.2);
-        panel.addDirectionalLight(new Vector3(0,1,1));
+        //panel.addAmbient(0.4);
 
         frame.add(panel);
 
         frame.setVisible(true);
-    }
-
-    public static Box3D getBox(double x, double y, double z, double height, double width, double depth){
-        return new Box3D(new Vector3(x,y,z),height,width,depth);
     }
 }
