@@ -21,6 +21,10 @@ public class Vector3 {
         return Math.sqrt(x*x + y*y + z*z);
     }
 
+    public Vector3 norm(){
+        return new Vector3(x/magnitude(),y/magnitude(),z/magnitude());
+    }
+
     public String toString(){
         return "x: " + x + ", y: " + y + ", z: " + z;
     }

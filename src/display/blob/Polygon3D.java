@@ -49,7 +49,11 @@ public class Polygon3D {
     }
 
     public Vector3 getCenter(){
-        Vector3 vertex = VectorMath.multiply(VectorMath.add(points.get(0),points.get(2)),0.5);
+        Vector3 vertex = VectorMath.multiply(VectorMath.add(points.get(0),VectorMath.add(points.get(2),points.get(1))),0.33);
         return vertex;
+    }
+
+    public boolean contains(Vector3 point){
+        return true;
     }
 }

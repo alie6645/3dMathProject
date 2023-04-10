@@ -40,12 +40,7 @@ public class Cube implements Blob3D {
     }
 
     public void depthSort(Vector3 cam){
-        getPolygons().sort(new Comparator<Polygon3D>() {
-            @Override
-            public int compare(Polygon3D o1, Polygon3D o2) {
-                return (int) (o2.getDepth(cam) - o1.getDepth(cam));
-            }
-        });
+        getPolygons().sort((o1, o2) -> (int) (o2.getDepth(cam) - o1.getDepth(cam)));
     }
 
     @Override

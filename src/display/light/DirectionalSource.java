@@ -11,7 +11,7 @@ public class DirectionalSource implements Light{
 
     @Override
     public double getLight(Vector3 pos, Vector3 norm) {
-        double modifier = Math.abs(VectorMath.dot(VectorMath.norm(norm),VectorMath.norm(direction)));
-        return modifier;
+        double modifier = Math.abs(VectorMath.dot(norm.norm(),direction.norm()));
+        return modifier * 0.2;
     }
 }

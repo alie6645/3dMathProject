@@ -20,12 +20,16 @@ public class Mesh implements Blob3D{
         for (int i=0; i<width; i++){
             for (int j=0; j<length; j++){
                 Polygon3D poly = new Polygon3D();
+                Polygon3D poly2 = new Polygon3D();
                 Vector3 start = VectorMath.add(VectorMath.add(pos,VectorMath.multiply(side2,j)),VectorMath.multiply(side1,i));
-                poly.addPoint(VectorMath.add(start,side1));
                 poly.addPoint(start);
-                poly.addPoint(VectorMath.add(start,side2));
+                poly.addPoint(VectorMath.add(start,side1));
                 poly.addPoint(VectorMath.add(start,VectorMath.add(side1,side2)));
+                poly2.addPoint(start);
+                poly2.addPoint(VectorMath.add(start,side2));
+                poly2.addPoint(VectorMath.add(start,VectorMath.add(side1,side2)));
                 polygons.add(poly);
+                polygons.add(poly2);
             }
         }
     }

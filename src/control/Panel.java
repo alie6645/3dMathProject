@@ -78,10 +78,17 @@ public class Panel extends JComponent {
             g2.setColor(blob.getColor());
             List<Polygon3D> surfaces = blob.getPolygons();
             for (Polygon3D poly:surfaces){
-                //double modifier = Math.abs(VectorMath.dot(VectorMath.norm(poly.getNormal()),VectorMath.norm(projection.normal)));
                 double modifier = lighting.getLighting(poly.getCenter(),poly.getNormal());
                 g2.setColor(ColorModifier.multiply(main,modifier));
                 poly.draw(g2, projection);
+                //g2.setColor(Color.white);
+                //Polygon3D[] highlights = lighting.getSpecular(projection.camera,poly);
+                //for (int i=0; i<lighting.getNumPoints(); i++){
+                //    Polygon3D highlight = highlights[i];
+                //    if (highlight != null && poly.contains(highlight.getCenter())) {
+                //        highlights[i].draw(g2, projection);
+                //    }
+                //}
             }
         }
     }

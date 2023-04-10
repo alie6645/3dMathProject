@@ -1,9 +1,6 @@
 package control;
 
-import display.blob.Cube;
-import display.blob.CustomBlob;
-import display.blob.Mesh;
-import display.blob.Polygon3D;
+import display.blob.*;
 import display.shape.Box3D;
 import display.shape.Grid3D;
 import projection.Vector3;
@@ -28,38 +25,47 @@ public class Launcher {
         Cube cube1 = new Cube(new Vector3(-10,10,-10),10);
         Cube cube2 = new Cube(new Vector3(0,10,-14),10);
 
+        Sphere sphere = new Sphere(new Vector3(30,0,30),10);
+
         CustomBlob pyramid = new CustomBlob();
         Polygon3D right = new Polygon3D();
-        right.addPoint(new Vector3(0,10,0));
+        right.addPoint(new Vector3(0,-10,0));
         right.addPoint(new Vector3(-10,0,-10));
         right.addPoint(new Vector3(-10,0,10));
         Polygon3D left = new Polygon3D();
-        left.addPoint(new Vector3(0,10,0));
+        left.addPoint(new Vector3(0,-10,0));
         left.addPoint(new Vector3(10,0,10));
         left.addPoint(new Vector3(10,0,-10));
         Polygon3D top = new Polygon3D();
-        top.addPoint(new Vector3(0,10,0));
+        top.addPoint(new Vector3(0,-10,0));
         top.addPoint(new Vector3(10,0,10));
         top.addPoint(new Vector3(-10,0,10));
         Polygon3D bottom = new Polygon3D();
-        bottom.addPoint(new Vector3(0,10,0));
+        bottom.addPoint(new Vector3(0,-10,0));
         bottom.addPoint(new Vector3(-10,0,-10));
         bottom.addPoint(new Vector3(10,0,-10));
+        Polygon3D base = new Polygon3D();
+        base.addPoint(new Vector3(10,0,10));
+        base.addPoint(new Vector3(10,0,-10));
+        base.addPoint(new Vector3(-10,0,-10));
+        base.addPoint(new Vector3(-10,0,10));
         pyramid.addPoly(right);
         pyramid.addPoly(left);
         pyramid.addPoly(top);
         pyramid.addPoly(bottom);
+        pyramid.addPoly(base);
 
         panel.add(cube);
         panel.add(cube1);
         panel.add(cube2);
+        panel.add(sphere);
         panel.add(floor);
         panel.add(pyramid);
 
-        panel.addPointLight(new Vector3(0,0,0),50,0.5);
+        panel.addPointLight(new Vector3(30,0,0),50,0.5);
         panel.addPointLight(new Vector3(50,10,50), 50,0.5);
-        //panel.addPointLight(new Vector3(-20,-20,-10),100,0.5);
-        //panel.addAmbient(0.4);
+        panel.addPointLight(new Vector3(-20,-20,-10),100,0.5);
+        panel.addAmbient(0.2);
 
         frame.add(panel);
 
