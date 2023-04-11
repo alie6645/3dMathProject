@@ -55,4 +55,43 @@ public class VectorMath {
         t = t / (a * x - a * start.x + b * y - b * start.y + c * z - c * start.z);
         return new Vector3(t * (x - start.x), t * (y - start.y), t * (z - start.z));
     }
+    
+    
+    public static Vector3 rotateZ(Vector3 point, double angle){
+        if (angle != 0) {
+            double x = point.x;
+            double y = point.y;
+            return new Vector3(x*Math.cos(angle)-y*Math.sin(angle), x*Math.sin(angle)+y*Math.cos(angle), point.z);
+        } else {
+            return point;
+        }
+    }
+
+    public static Vector3 rotateX(Vector3 point, double angle){
+        if (angle != 0) {
+            double z = point.z;
+            double y = point.y;
+            return new Vector3(point.x, y*Math.cos(angle)-z*Math.sin(angle), y*Math.sin(angle)+z*Math.cos(angle));
+        } else {
+            return point;
+        }
+    }
+
+    public static Vector3 rotateY(Vector3 point, double angle){
+        if (angle != 0) {
+            double x = point.x;
+            double z = point.z;
+            return new Vector3(x*Math.cos(angle)+z*Math.sin(angle), point.y, z*Math.cos(angle)-x*Math.sin(angle));
+        } else {
+            return point;
+        }
+    }
+
+    public static Vector3 rotate(Vector3 point, double x, double y, double z){
+        Vector3 result;
+        result = rotateX(point, x);
+        result = rotateY(result, y);
+        result = rotateZ(result, z);
+        return result;
+    }
 }
